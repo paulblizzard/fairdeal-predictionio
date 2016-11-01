@@ -12,8 +12,8 @@ v1 -- original version where I attempted to ascertain the fairness of the dealin
 1)  [Install Docker](https://www.docker.com/products/overview) 
 2)  [Get the Community PredictionIO Docker image](https://github.com/apache/incubator-predictionio/)
 3)  Install the Community Docker image (instructions at the above link)
-4)  Clone this repo in the docker image.  You will need to copy this six times (each prediction engine is independent of each answer).
-5)  [Install the PredictionIO engines](http://predictionio.incubator.apache.org/start/deploy/)
+4)  Clone this repo in the docker image.  You will need to copy this six times (one for each question).
+5)  [Install the PredictionIO engines](http://predictionio.incubator.apache.org/start/deploy/).  You will need to do this six times, one for each question.
 6) Import some test data (for each of the engines):
 
 x6:
