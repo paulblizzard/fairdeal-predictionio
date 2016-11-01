@@ -16,7 +16,7 @@
   },
   "algorithms": [
     {
-      "name": "nb",
+      "name": "lr",
       "params": {
         "regParam": 0.00000005
       }
