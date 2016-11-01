@@ -1,6 +1,36 @@
+# Fairdeal-PredictionIO template
+
+v2 -- Instead, I am going to do this a bit differently, and create individual prediction IO applications dealing with each question/answer pairing individually.  This seems like a much more straightforward method of dealing with this.  There are many benefits to this approach:  
+
+1)  A user can mark the fairness of each answer individually, which is the most correct way to make this sort of judgment
+2)  A user can see individually the feedback for each answer to see why their dealing is not fair.  It's a lot stronger to say that it's not a fair dealing because xx and yy.
+
+v1 -- original version where I attempted to ascertain the fairness of the dealing in its entirety in PredictionIO.  
+
+# Installation instructions
+
+1)  [Install Docker](https://www.docker.com/products/overview) 
+2)  [Get the Community PredictionIO Docker image](https://github.com/apache/incubator-predictionio/)
+3)  Install the Community Docker image (instructions at the above link)
+4)  Clone this repo in the docker image.  You will need to copy this six times (each prediction engine is independent of each answer).
+5)  [Install the PredictionIO engines](http://predictionio.incubator.apache.org/start/deploy/)
+6) Import some test data (for each of the engines):
+
+x6:
+- pio import --appid fairdeal-answer1 --input data/stopwords.json
+- pio import --appid fairdeal-answer1 --input data/sample_dealing.json
+
+7)  Test the engines
+
 # Text Classification Engine
 
-Look at the following [tutorial](https://docs.prediction.io/demo/textclassification/) for a Quick Start guide and implementation details.
+PredictionIO has excellent documentation that I recommend you read:
+
+[Text Classification Tutorial](https://docs.prediction.io/demo/textclassification/) has a Quick Start guide and implementation details.
+
+[Event API](http://predictionio.incubator.apache.org/datacollection/eventapi/) has a good guide about how to send Event Data and Query data to PredictionIO through the API.  This is how the Rails application communicates with PredictionIO for fairdeal.
+
+[Handling multiple events](http://predictionio.incubator.apache.org/templates/similarproduct/multi-events-multi-algos/)  was my initial plan for sending a dealing through to PredictionIO and handling everything at once.  This tutorial discusses how the weighting of different factors can be undertaken.
 
 # Release Information
 

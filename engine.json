@@ -4,7 +4,7 @@
   "engineFactory": "com.fairdeal.TextClassificationEngine",
   "datasource": {
     "params": {
-      "appName": "MyTextApp"
+      "appName": "fairdeal-answer1"
     }
   },
   "preparator": {
@@ -16,7 +16,7 @@
   },
   "algorithms": [
     {
-      "name": "lr",
+      "name": "nb",
       "params": {
         "regParam": 0.00000005
       }

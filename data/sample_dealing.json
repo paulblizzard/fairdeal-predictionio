@@ -1,0 +1,10 @@
+{
+    "entityId": 1,
+    "entityType": "content",
+    "event": "answer",
+    "eventTime": "2016-06-08T16:45:00.600+0000",
+    "properties": {
+        "content": "answer to this question that is a sample",
+        "label": "fair"
+    }
+}
