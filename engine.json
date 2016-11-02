@@ -4,7 +4,8 @@
   "engineFactory": "com.fairdeal.TextClassificationEngine",
   "datasource": {
     "params": {
-      "appName": "fairdeal-answer1"
+      "appName": "fairdeal-answer1",
+      "eventName": "answer1"
     }
   },
   "preparator": {
