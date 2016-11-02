@@ -20,6 +20,7 @@ import grizzled.slf4j.Logger
   */
 case class DataSourceParams(
     appName: String,
+    eventName: String,
     evalK: Option[Int]
   ) extends Params
 
