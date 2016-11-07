@@ -13,7 +13,7 @@ v1 -- original version where I attempted to ascertain the fairness of the dealin
 2)  [Get the Community PredictionIO Docker image](https://github.com/apache/incubator-predictionio/)
 3)  Install the Community Docker image (instructions at the above link)
 4)  Clone this repo in the docker image.  You will need to copy this six times (one for each question).
-5)  Edit engine.json and update appName
+5)  Edit engine.json and update eventName
 6)  Import the stop words and sample_dealing json files for each engine.
 7)  [Install the PredictionIO engines](http://predictionio.incubator.apache.org/start/deploy/).  You will need to do this six times, one for each question.
 8) Import some test data (for each of the engines):

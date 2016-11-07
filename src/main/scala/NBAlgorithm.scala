@@ -1,5 +1,7 @@
 package com.fairdeal
 
+package org.template.textclassification
+
 import io.prediction.controller.P2LAlgorithm
 import io.prediction.controller.Params
 import org.apache.spark.SparkContext
@@ -10,39 +12,48 @@ import com.github.fommil.netlib.F2jBLAS
 
 import scala.math._
 
-/** Define parameters for Supervised Learning Model. We are
- * using a Naive Bayes classifier, which gives us only one
- * hyperparameter in this stage.
- */
-case class NBAlgorithmParams(lambda: Double) extends Params
+// 1. Define parameters for Supervised Learning Model. We are
+// using a Naive Bayes classifier, which gives us only one
+// hyperparameter in this stage.
 
-/** Define SupervisedAlgorithm class. */
+case class  NBAlgorithmParams(
+  lambda: Double
+) extends Params
+
+
+
+// 2. Define SupervisedAlgorithm class.
+
 class NBAlgorithm(
-  val ap: NBAlgorithmParams
+  val sap: NBAlgorithmParams
 ) extends P2LAlgorithm[PreparedData, NBModel, Query, PredictedResult] {
 
-  /** Train your model. */
+  // Train your model.
   def train(sc: SparkContext, pd: PreparedData): NBModel = {
-    // Fit a Naive Bayes model using the prepared data.
-    val nb: NaiveBayesModel = NaiveBayes.train(pd.transformedData, ap.lambda)
-
-    new NBModel(
-      tfIdf = pd.tfIdf,
-      categoryMap = pd.categoryMap,
-      nb = nb)
+    new NBModel(pd, sap.lambda)
   }
 
-  /** Prediction method for trained model. */
+  // Prediction method for trained model.
   def predict(model: NBModel, query: Query): PredictedResult = {
     model.predict(query.text)
   }
 }
 
 class NBModel(
-  val tfIdf: TFIDFModel,
-  val categoryMap: Map[Double, String],
-  val nb: NaiveBayesModel
+val pd: PreparedData,
+lambda: Double
 ) extends Serializable {
+
+
+
+  // 1. Fit a Naive Bayes model using the prepared data.
+
+  private val nb : NaiveBayesModel = NaiveBayes.train(
+    pd.transformedData, lambda)
+
+
+
+  // 2. Set up linear algebra framework.
 
   private def innerProduct (x : Array[Double], y : Array[Double]) : Double = {
     x.zip(y).map(e => e._1 * e._2).sum
@@ -54,16 +65,19 @@ class NBModel(
     u.map(e => e / uSum)
   }
 
+
+
   private val scoreArray = nb.pi.zip(nb.theta)
 
-  /** Given a document string, return a vector of corresponding
-    * class membership probabilities.
-    * Helper function used to normalize probability scores.
-    * Returns an object of type Array[Double]
-    */
+  // 3. Given a document string, return a vector of corresponding
+  // class membership probabilities.
+
   private def getScores(doc: String): Array[Double] = {
-    // Vectorize query
-    val x: Vector = tfIdf.transform(doc)
+    // Helper function used to normalize probability scores.
+    // Returns an object of type Array[Double]
+
+    // Vectorize query,
+    val x: Vector = pd.tfIdf.transform(doc)
 
     val z = scoreArray
       .map(e => innerProduct(e._2, x.toArray) + e._1)
@@ -71,12 +85,12 @@ class NBModel(
     normalize((0 until z.size).map(k => exp(z(k) - z.max)).toArray)
   }
 
-  /** Implement predict method for our model using
-    * the prediction rule given in tutorial.
-    */
+  // 4. Implement predict method for our model using
+  // the prediction rule given in tutorial.
+
   def predict(doc : String) : PredictedResult = {
     val x: Array[Double] = getScores(doc)
     val y: (Double, Double) = (nb.labels zip x).maxBy(_._2)
-    new PredictedResult(categoryMap.getOrElse(y._1, ""), y._2)
+    new PredictedResult(pd.categoryMap.getOrElse(y._1, ""), y._2)
   }
 }
