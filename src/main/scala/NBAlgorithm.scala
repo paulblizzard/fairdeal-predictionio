@@ -1,7 +1,5 @@
 package com.fairdeal
 
-package org.template.textclassification
-
 import io.prediction.controller.P2LAlgorithm
 import io.prediction.controller.Params
 import org.apache.spark.SparkContext
